@@ -17,13 +17,28 @@ import locale from './calendarLocale'
 const array = [
   {
     '_id': '5a47a3d3e93a608010cf4e45',
-    'title': 'Утро',
-    'subtitle': 'Зарядка',
+    'title': 'Зарядка',
+    'subtitle': 'Золотой',
     'start': '09-00',
     'end': '12-00',
     'img': 'https://careyyogaandnutritiondotcom.files.wordpress.com/2016/03/shutterstock_304371809.jpg?w=840',
-    'info': 'Cамостоятельно',
-    'masterlink': 'Сам',
+    'info': 'Хатха',
+    'masterlink': 'Евгений Левченко',
+    'days': [
+      '2018-01-06',
+      '2018-01-08',
+      '2018-01-09'
+    ]
+  },
+  {
+    '_id': '5a47a3d3e93a608010cf4e40',
+    'title': 'Фитнес',
+    'subtitle': 'Синий',
+    'start': '15-00',
+    'end': '18-00',
+    'img': 'https://careyyogaandnutritiondotcom.files.wordpress.com/2016/03/shutterstock_304371809.jpg?w=840',
+    'info': 'Класс',
+    'masterlink': 'Феликс Пак',
     'days': [
       '2018-01-01',
       '2018-01-02',
@@ -32,8 +47,8 @@ const array = [
   },
   {
     '_id': '5a47a363e93a608010cf4e44',
-    'title': 'Вечер',
-    'subtitle': 'Бег',
+    'title': 'Бег',
+    'subtitle': 'Белый',
     'start': '18-00',
     'end': '20-00',
     'img': 'http://pohudet.info/sites/all2/images/beg-po-utram.jpg',
@@ -64,17 +79,15 @@ class App extends Component {
 
   fetchEvents(date) {
     const formatDate = date.format("YYYY-MM-DD")
-    _.find(this.props.dataEvents, function(value, key) {
-      if (key === formatDate) {
-        const today = (key, value)
-        console.log('today', today)
-        //this.props.getTodayEvents(today)
-      }
+    const today = _.find(this.props.dataEvents, function(value, key) {
+      return key === formatDate
     })
+    this.props.getTodayEvents(today)
   }
   
   _renderItem(data) {
-    const { start, title, subtitle } = data.item
+    console.log('data', data)
+    const { start, title, subtitle, masterlink } = data.item
     return (
       <View style={styles.container}>
         <View style={styles.data}>
@@ -82,6 +95,7 @@ class App extends Component {
         </View>
         <View style={styles.subcontainer}>
           <Text style={styles.titleText}>{title}</Text>
+          <Text style={styles.titleText}>{masterlink}</Text>
           <Text style={styles.hallText}>Зал: {subtitle}</Text>
         </View>
         <TouchableOpacity onPress={ () => this.props.navigation.navigate('Detail') }>
@@ -120,7 +134,14 @@ class App extends Component {
           iconLeft={require('./img/left-arrow-black.png')}
           iconRight={require('./img/right-arrow-black.png')}
           iconContainer={{ flex: 0.1 }}
+          selectedDate={this.selectedDate}
           onDateSelected={(date) => this.fetchEvents(date)}
+        />
+        <FlatList
+          data={this.props.dataToday}
+          extraData={this.state}
+          keyExtractor={this._keyExtractor}
+          renderItem={this._renderItem}
         />
       </View>
     )
@@ -181,4 +202,9 @@ const styles = StyleSheet.create({
   }
 })
 
-export default connect(state => ({ dataEvents: state.calendar.dataEvents }), actions)(App)
+const mapStateToProps = (state) => {
+  const { dataEvents, dataToday } = state.calendar
+  return { dataEvents, dataToday }
+}
+
+export default connect(mapStateToProps, actions)(App)

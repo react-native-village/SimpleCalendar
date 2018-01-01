@@ -18,7 +18,7 @@ export const getStudioEventsData = (data) => async dispatch => {
 export const getTodayEvents = (today) => async dispatch => {
   console.log('today', today)
   try {
-    //dispatch({ type: 'TODAY_EVENTS_SUCCESSFUL', payload: result })
+    dispatch({ type: 'TODAY_EVENTS_SUCCESSFUL', payload: today })
   } catch (error) {
     dispatch({ type: 'TODAY_EVENTS_FAILED' })
   }

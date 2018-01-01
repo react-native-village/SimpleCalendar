@@ -1,5 +1,6 @@
 const initialState = {
-  dataEvents: null
+  dataEvents: null,
+  dataToday: null
 }
 
 export default (state = initialState, action) => {
@@ -8,6 +9,11 @@ export default (state = initialState, action) => {
     return {
       ...state,
       dataEvents: action.payload
+    }
+  case 'TODAY_EVENTS_SUCCESSFUL':
+    return {
+      ...state,
+      dataToday: action.payload
     }
   default:
     return state
