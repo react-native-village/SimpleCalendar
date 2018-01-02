@@ -1,4 +1,4 @@
-export const getStudioEventsData = (data) => async dispatch => {
+export const getStudioEventsData = (data) => dispatch => {
   try {
     const result = data.reduce((resObj, currEl) => {
       const { _id, title, subtitle, img, info, start, end, masterlink, days = [] } = currEl
@@ -14,7 +14,7 @@ export const getStudioEventsData = (data) => async dispatch => {
   }
 }
 
-export const getNowEvents = (now) => async dispatch => {
+export const getNowEvents = (now) => dispatch => {
   //console.log('now', now)
   try {
     dispatch({ type: 'NOW_EVENTS_SUCCESSFUL', payload: now })
