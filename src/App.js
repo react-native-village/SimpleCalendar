@@ -71,13 +71,14 @@ class App extends Component {
     }
   }
 
-  componentDidMount () {
-    this.props.getStudioEventsData(ArraySimple)
+  async componentDidMount () {
+    console.log(this.props)
+    await this.props.getStudioEventsData(ArraySimple)
     this.fetchNowEvents(moment())
   }
 
   fetchNowEvents(date) {
-    //console.log('date', date)
+    console.log('date', date)
     this.setState({ selectedDate: date })
     const formatDate = date.format("YYYY-MM-DD")
     const now = _.find(this.props.dataEvents, function(value, key) {
@@ -151,7 +152,6 @@ class App extends Component {
     )
   }
 }
-          //selectedDate={this.state.selectedDate !== '' ? this.state.selectedDate : moment()}
 
 const styles = StyleSheet.create({
   container: {
@@ -208,8 +208,8 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state) => {
-  const { dataEvents, dataToday, loaded } = state.calendar
-  return { dataEvents, dataToday, loaded }
+  const { dataEvents, dataToday } = state.calendar
+  return { dataEvents, dataToday }
 }
 
 export default connect(mapStateToProps, actions)(App)
