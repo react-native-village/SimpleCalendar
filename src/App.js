@@ -19,8 +19,8 @@ const array = [
     '_id': '5a47a3d3e93a608010cf4e45',
     'title': 'Зарядка',
     'subtitle': 'Золотой',
-    'start': '09-00',
-    'end': '12-00',
+    'start': '09:00',
+    'end': '12:00',
     'img': 'https://careyyogaandnutritiondotcom.files.wordpress.com/2016/03/shutterstock_304371809.jpg?w=840',
     'info': 'Хатха',
     'masterlink': 'Евгений Левченко',
@@ -34,8 +34,8 @@ const array = [
     '_id': '5a47a3d3e93a608010cf4e40',
     'title': 'Фитнес',
     'subtitle': 'Синий',
-    'start': '15-00',
-    'end': '18-00',
+    'start': '15:00',
+    'end': '18:00',
     'img': 'https://careyyogaandnutritiondotcom.files.wordpress.com/2016/03/shutterstock_304371809.jpg?w=840',
     'info': 'Класс',
     'masterlink': 'Феликс Пак',
@@ -49,8 +49,8 @@ const array = [
     '_id': '5a47a363e93a608010cf4e44',
     'title': 'Бег',
     'subtitle': 'Белый',
-    'start': '18-00',
-    'end': '20-00',
+    'start': '18:00',
+    'end': '20:00',
     'img': 'http://pohudet.info/sites/all2/images/beg-po-utram.jpg',
     'info': 'C преподователем',
     'masterlink': 'Магруф Хатхеевич',
@@ -66,7 +66,9 @@ const array = [
 class App extends Component {
   constructor(props) {
     super(props)
-    this.props.getTodayEvents = this.props.getTodayEvents.bind(this)
+    this.state = {
+      selectedDate: moment()
+    }
   }
 
   componentDidMount() {
@@ -78,6 +80,8 @@ class App extends Component {
   }
 
   fetchEvents(date) {
+    console.log('date', date)
+    this.setState({ selectedDate: date })
     const formatDate = date.format("YYYY-MM-DD")
     const today = _.find(this.props.dataEvents, function(value, key) {
       return key === formatDate
@@ -115,6 +119,17 @@ class App extends Component {
       end: moment().add(30, 'days') 
     }]
 
+    //const { dataEvents } = this.props
+    //const data = dataEvents || {} 
+
+    //if (data !== {} ) {
+      //console.log('не пустой', data)
+      ////this.fetchEvents(now)
+    //} else {
+      //console.log('пустой', data)
+    //}
+
+
     return (
       <View>
         <CalendarStrip
@@ -134,7 +149,7 @@ class App extends Component {
           iconLeft={require('./img/left-arrow-black.png')}
           iconRight={require('./img/right-arrow-black.png')}
           iconContainer={{ flex: 0.1 }}
-          selectedDate={this.selectedDate}
+          selectedDate={this.state.selectedDate}
           onDateSelected={(date) => this.fetchEvents(date)}
         />
         <FlatList

@@ -1,5 +1,4 @@
 export const getStudioEventsData = (data) => async dispatch => {
-  console.log('data', data)
   try {
     const result = data.reduce((resObj, currEl) => {
       const { _id, title, subtitle, img, info, start, end, masterlink, days = [] } = currEl
