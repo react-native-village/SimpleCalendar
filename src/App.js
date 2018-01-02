@@ -79,7 +79,7 @@ class App extends Component {
     this.props.getStudioEventsData(array)
   }
 
-  fetchEvents(date) {
+  fetchTodayEvents(date) {
     console.log('date', date)
     this.setState({ selectedDate: date })
     const formatDate = date.format("YYYY-MM-DD")
@@ -124,7 +124,7 @@ class App extends Component {
 
     //if (data !== {} ) {
       //console.log('не пустой', data)
-      ////this.fetchEvents(now)
+      ////this.fetchTodayEvents(now)
     //} else {
       //console.log('пустой', data)
     //}
@@ -150,7 +150,7 @@ class App extends Component {
           iconRight={require('./img/right-arrow-black.png')}
           iconContainer={{ flex: 0.1 }}
           selectedDate={this.state.selectedDate}
-          onDateSelected={(date) => this.fetchEvents(date)}
+          onDateSelected={(date) => this.fetchTodayEvents(date)}
         />
         <FlatList
           data={this.props.dataToday}
