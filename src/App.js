@@ -14,7 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import CalendarStrip from 'react-native-calendar-strip'
 import locale from './calendarLocale'
 
-const array = [
+const ArraySimple = [
   {
     '_id': '5a47a3d3e93a608010cf4e45',
     'title': 'Зарядка',
@@ -67,22 +67,13 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedDate: '' 
+      selectedDate: moment(),
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-   console.log('nextProps', nextProps)
-    const now = moment()
-    this.fetchNowEvents(now)
-  }
-
-  componentWillMount() {
-    this._getStudioEventsData()
-  }
-
-  _getStudioEventsData = async () => {
-    this.props.getStudioEventsData(array)
+  componentDidMount () {
+    this.props.getStudioEventsData(ArraySimple)
+    this.fetchNowEvents(moment())
   }
 
   fetchNowEvents(date) {
@@ -95,7 +86,7 @@ class App extends Component {
     this.props.getNowEvents(now)
   }
 
-  
+
   _renderItem(data) {
     //console.log('data', data)
     const { start, title, subtitle, masterlink } = data.item
@@ -109,7 +100,7 @@ class App extends Component {
           <Text style={styles.titleText}>{masterlink}</Text>
           <Text style={styles.hallText}>Зал: {subtitle}</Text>
         </View>
-        <TouchableOpacity onPress={ () => this.props.navigation.navigate('Detail') }>
+        <TouchableOpacity onPress={ () => console.log('click') }>
           <Icon style={styles.chevron} name="chevron-right" size={50} color="#DBD7D2" />
         </TouchableOpacity>
       </View>
@@ -123,8 +114,10 @@ class App extends Component {
   render() {
     const datesWhitelist = [{
       start: moment(),
-      end: moment().add(30, 'days') 
+      end: moment().add(30, 'days')
     }]
+
+    console.log(this.props.dataToday)
 
     return (
       <View>
@@ -145,7 +138,7 @@ class App extends Component {
           iconLeft={require('./img/left-arrow-black.png')}
           iconRight={require('./img/right-arrow-black.png')}
           iconContainer={{ flex: 0.1 }}
-          selectedDate={this.state.selectedDate !== '' ? this.state.selectedDate : moment()}
+          selectedDate={this.state.selectedDate}
           onDateSelected={(date) => this.fetchNowEvents(date)}
         />
         <FlatList
@@ -158,6 +151,7 @@ class App extends Component {
     )
   }
 }
+          //selectedDate={this.state.selectedDate !== '' ? this.state.selectedDate : moment()}
 
 const styles = StyleSheet.create({
   container: {
