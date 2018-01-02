@@ -67,8 +67,14 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedDate: moment() 
+      selectedDate: '' 
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+   console.log('nextProps', nextProps)
+    const now = moment()
+    this.fetchNowEvents(now)
   }
 
   componentWillMount() {
@@ -139,7 +145,7 @@ class App extends Component {
           iconLeft={require('./img/left-arrow-black.png')}
           iconRight={require('./img/right-arrow-black.png')}
           iconContainer={{ flex: 0.1 }}
-          selectedDate={this.state.selectedDate}
+          selectedDate={this.state.selectedDate !== '' ? this.state.selectedDate : moment()}
           onDateSelected={(date) => this.fetchNowEvents(date)}
         />
         <FlatList
