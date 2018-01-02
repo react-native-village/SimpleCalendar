@@ -67,30 +67,37 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedDate: moment()
+      selectedDate: ''
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this._getStudioEventsData()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.selectedDate === '') {
+      this.fetchNowEvents(moment())
+    }
   }
 
   _getStudioEventsData = async () => {
     this.props.getStudioEventsData(array)
   }
 
-  fetchTodayEvents(date) {
-    console.log('date', date)
+  fetchNowEvents(date) {
+    //console.log('date', date)
     this.setState({ selectedDate: date })
     const formatDate = date.format("YYYY-MM-DD")
-    const today = _.find(this.props.dataEvents, function(value, key) {
+    const now = _.find(this.props.dataEvents, function(value, key) {
       return key === formatDate
     })
-    this.props.getTodayEvents(today)
+    this.props.getNowEvents(now)
   }
+
   
   _renderItem(data) {
-    console.log('data', data)
+    //console.log('data', data)
     const { start, title, subtitle, masterlink } = data.item
     return (
       <View style={styles.container}>
@@ -119,17 +126,6 @@ class App extends Component {
       end: moment().add(30, 'days') 
     }]
 
-    //const { dataEvents } = this.props
-    //const data = dataEvents || {} 
-
-    //if (data !== {} ) {
-      //console.log('не пустой', data)
-      ////this.fetchTodayEvents(now)
-    //} else {
-      //console.log('пустой', data)
-    //}
-
-
     return (
       <View>
         <CalendarStrip
@@ -150,7 +146,8 @@ class App extends Component {
           iconRight={require('./img/right-arrow-black.png')}
           iconContainer={{ flex: 0.1 }}
           selectedDate={this.state.selectedDate}
-          onDateSelected={(date) => this.fetchTodayEvents(date)}
+          selectedDate={this.state.selectedDate !== '' ? this.state.selectedDate : moment()}
+          onDateSelected={(date) => this.fetchNowEvents(date)}
         />
         <FlatList
           data={this.props.dataToday}
@@ -218,8 +215,8 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state) => {
-  const { dataEvents, dataToday } = state.calendar
-  return { dataEvents, dataToday }
+  const { dataEvents, dataToday, loaded } = state.calendar
+  return { dataEvents, dataToday, loaded }
 }
 
 export default connect(mapStateToProps, actions)(App)

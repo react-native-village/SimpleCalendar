@@ -14,11 +14,11 @@ export const getStudioEventsData = (data) => async dispatch => {
   }
 }
 
-export const getTodayEvents = (today) => async dispatch => {
-  console.log('today', today)
+export const getNowEvents = (now) => async dispatch => {
+  //console.log('now', now)
   try {
-    dispatch({ type: 'TODAY_EVENTS_SUCCESSFUL', payload: today })
+    dispatch({ type: 'NOW_EVENTS_SUCCESSFUL', payload: now })
   } catch (error) {
-    dispatch({ type: 'TODAY_EVENTS_FAILED' })
+    dispatch({ type: 'NOW_EVENTS_FAILED' })
   }
 }
