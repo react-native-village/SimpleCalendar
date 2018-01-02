@@ -67,18 +67,12 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedDate: ''
+      selectedDate: moment() 
     }
   }
 
   componentWillMount() {
     this._getStudioEventsData()
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.state.selectedDate === '') {
-      this.fetchNowEvents(moment())
-    }
   }
 
   _getStudioEventsData = async () => {
@@ -146,7 +140,6 @@ class App extends Component {
           iconRight={require('./img/right-arrow-black.png')}
           iconContainer={{ flex: 0.1 }}
           selectedDate={this.state.selectedDate}
-          selectedDate={this.state.selectedDate !== '' ? this.state.selectedDate : moment()}
           onDateSelected={(date) => this.fetchNowEvents(date)}
         />
         <FlatList
